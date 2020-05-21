@@ -23,20 +23,11 @@ php:
  - 5.5
  - 5.6
  - 7.0
- - 7.1
- - 7.2
  - 7.3
 
 env:
  global:
   - MOODLE_BRANCH=MOODLE_30_STABLE
-  - MOODLE_BRANCH=MOODLE_31_STABLE
-  - MOODLE_BRANCH=MOODLE_32_STABLE
-  - MOODLE_BRANCH=MOODLE_33_STABLE
-  - MOODLE_BRANCH=MOODLE_34_STABLE
-  - MOODLE_BRANCH=MOODLE_35_STABLE
-  - MOODLE_BRANCH=MOODLE_36_STABLE
-  - MOODLE_BRANCH=MOODLE_37_STABLE
  matrix:
   - DB=mysqli
 
@@ -47,6 +38,7 @@ before_install:
   - cd ../..
   - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci dev-poet
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+  - docker run -d -p 127.0.0.1:4444:4444 --net=host -v /dev/shm:/dev/shm selenium/standalone-firefox:3
 
 install:
   #- moodle-plugin-ci add-plugin --clone https://github.com/Edudevel/emedia_questionbanks.git
@@ -63,4 +55,5 @@ script:
   - moodle-plugin-ci jshint
   - moodle-plugin-ci validate
   - moodle-plugin-ci phpunit
+  - moodle-plugin-ci behat
   - moodle-plugin-ci phpunit --coverage-text
