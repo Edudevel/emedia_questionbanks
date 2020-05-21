@@ -24,10 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-use enrol_lti\helper;
-
 require_once($CFG->libdir  . '/externallib.php');
-require_once($CFG->dirroot . '/enrol/lti/classes/helper.php');
 require_once($CFG->libdir  . '/questionlib.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/format.php');
@@ -372,7 +369,13 @@ class local_wslti_services extends external_api {
         $qformat->setStoponerror(0);
         $qformat->setCattofile(0);
         $qformat->setContexttofile(0);
-        $qformat->set_display_progress(false);
+        try {
+            if(method_exists($qformat,'set_display_progress')){
+                $qformat->set_display_progress(false);
+            }
+        } catch (Exception $e) {
+            $course->id = 0;
+        }
         $out = $qformat->exportprocess();
 
         return $out;
@@ -530,7 +533,9 @@ class local_wslti_services extends external_api {
         $qformat->setContextfromfile(0);
         $qformat->setStoponerror($stoponerror);
         try {
-            $qformat->set_display_progress(false);
+            if(method_exists($qformat,'set_display_progress')){
+                $qformat->set_display_progress(false);
+            }
         } catch (Exception $e) {
             $course->id = 0;
         }
@@ -538,7 +543,9 @@ class local_wslti_services extends external_api {
         $questionids = '';
         try {
             // Process the uploaded file.
+            ob_start();
             $qformat->importprocess();
+            ob_end_clean();
             $questionids = $qformat->questionids;
 
         } catch (Exception $e) {
