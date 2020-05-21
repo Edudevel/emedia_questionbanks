@@ -370,7 +370,7 @@ class local_wslti_services extends external_api {
         $qformat->setCattofile(0);
         $qformat->setContexttofile(0);
         try {
-            if(method_exists($qformat,'set_display_progress')){
+            if (method_exists($qformat, 'set_display_progress')) {
                 $qformat->set_display_progress(false);
             }
         } catch (Exception $e) {
@@ -533,7 +533,7 @@ class local_wslti_services extends external_api {
         $qformat->setContextfromfile(0);
         $qformat->setStoponerror($stoponerror);
         try {
-            if(method_exists($qformat,'set_display_progress')){
+            if (method_exists($qformat, 'set_display_progress')) {
                 $qformat->set_display_progress(false);
             }
         } catch (Exception $e) {
