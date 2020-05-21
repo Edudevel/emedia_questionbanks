@@ -202,7 +202,7 @@ class local_wslti_services_testcase extends externallib_advanced_testcase {
             array('name' => 'page', 'value' => '0'),
             array('name' => 'perpage', 'value' => '0')
         );
-        $result = local_wslti_services::local_wslti_find_questions('idnumber', '123456', $options);
+        $result = local_wslti_services::local_wslti_find_questions('cat_idandcontext', $catidentifier, $options);
         $questions = $result['questions'];
         $this->assertNotEmpty($questions);
 
