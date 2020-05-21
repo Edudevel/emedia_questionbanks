@@ -529,7 +529,11 @@ class local_wslti_services extends external_api {
         $qformat->setCatfromfile(0);
         $qformat->setContextfromfile(0);
         $qformat->setStoponerror($stoponerror);
-        $qformat->set_display_progress(false);
+        try {
+            $qformat->set_display_progress(false);
+        } catch (Exception $e) {
+            $course->id = 0;
+        }
 
         $questionids = '';
         try {
